@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayush Premium Store</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#050816;
+color:white;
+overflow-x:hidden;
+}
+
+/* Animated Background */
+
+body::before{
+content:'';
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top left,#00ffff33,transparent 30%),
+radial-gradient(circle at bottom right,#ff00ff33,transparent 30%),
+linear-gradient(135deg,#050816,#0f172a,#111827);
+z-index:-1;
+animation:bgmove 10s infinite alternate;
+}
+
+@keyframes bgmove{
+0%{filter:hue-rotate(0deg);}
+100%{filter:hue-rotate(50deg);}
+}
+
+/* Header */
+
+header{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.logo{
+font-size:34px;
+font-weight:bold;
+color:#00ffff;
+text-shadow:0 0 20px cyan;
+}
+
+nav{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+button{
+border:none;
+padding:12px 18px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.login-btn{
+background:#00ffff;
+color:black;
+}
+
+.dark-btn{
+background:#111;
+color:white;
+}
+
+.cart-btn{
+background:#ff9900;
+position:relative;
+}
+
+.cart-count{
+position:absolute;
+top:-8px;
+right:-8px;
+background:red;
+width:22px;
+height:22px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:12px;
+}
+
+/* Hero */
+
+.hero{
+height:90vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:80px;
+color:#00ffff;
+text-shadow:0 0 30px cyan;
+animation:glow 2s infinite alternate;
+}
+
+.hero p{
+font-size:22px;
+margin-top:15px;
+color:#ddd;
+}
+
+@keyframes glow{
+0%{transform:scale(1);}
+100%{transform:scale(1.05);}
+}
+
+.hero button{
+margin-top:25px;
+background:#00ffff;
+color:black;
+font-size:18px;
+}
+
+/* Search */
+
+.search-box{
+display:flex;
+justify-content:center;
+margin:30px;
+}
+
+.search-box input{
+width:320px;
+padding:15px;
+border:none;
+border-radius:12px 0 0 12px;
+outline:none;
+font-size:16px;
+}
+
+.search-box button{
+border-radius:0 12px 12px 0;
+background:#00ffff;
+}
+
+/* Products */
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+padding:30px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+padding:18px;
+border-radius:20px;
+transition:0.4s;
+position:relative;
+overflow:hidden;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.03);
+box-shadow:0 0 25px cyan;
+}
+
+.card img{
+width:100%;
+height:230px;
+object-fit:cover;
+border-radius:15px;
+transition:0.4s;
+}
+
+.card img:hover{
+transform:scale(1.08);
+}
+
+.sale{
+position:absolute;
+top:12px;
+left:12px;
+background:red;
+padding:6px 10px;
+border-radius:10px;
+font-size:12px;
+font-weight:bold;
+}
+
+.card h2{
+margin-top:12px;
+}
+
+.price{
+font-size:24px;
+margin:10px 0;
+color:#00ff99;
+}
+
+.rating{
+color:gold;
+font-size:18px;
+}
+
+.stock{
+margin-top:5px;
+color:orange;
+}
+
+.review{
+margin-top:10px;
+color:#ddd;
+font-size:14px;
+}
+
+.buy-btn{
+margin-top:15px;
+width:100%;
+background:#00ffff;
+color:black;
+}
+
+/* Cart */
+
+.cart{
+position:fixed;
+top:0;
+right:-420px;
+width:380px;
+height:100%;
+background:#111827;
+padding:20px;
+transition:0.4s;
+z-index:9999;
+overflow:auto;
+}
+
+.cart.active{
+right:0;
+}
+
+.cart h2{
+margin-bottom:20px;
+}
+
+.cart-item{
+display:flex;
+gap:10px;
+background:#1e293b;
+padding:10px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.cart-item img{
+width:70px;
+height:70px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.total{
+font-size:24px;
+margin:20px 0;
+}
+
+.close-cart{
+background:red;
+width:100%;
+margin-bottom:10px;
+color:white;
+}
+
+.checkout{
+background:#00ff99;
+width:100%;
+}
+
+/* Login */
+
+.overlay{
+display:none;
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+top:0;
+left:0;
+z-index:999;
+}
+
+.login-box{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#111827;
+padding:30px;
+border-radius:20px;
+width:330px;
+z-index:1000;
+}
+
+.login-box h2{
+margin-bottom:15px;
+}
+
+.login-box input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+border-radius:12px;
+outline:none;
+}
+
+.login-box button{
+width:100%;
+background:#00ffff;
+color:black;
+}
+
+/* Shipping */
+
+.shipping{
+margin:25px;
+padding:25px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+border-radius:20px;
+}
+
+.shipping h2{
+margin-bottom:10px;
+}
+
+/* Footer */
+
+footer{
+margin-top:40px;
+padding:25px;
+text-align:center;
+background:#111827;
+}
+
+/* Responsive */
+
+@media(max-width:700px){
+
+.hero h1{
+font-size:45px;
+}
+
+.search-box input{
+width:180px;
+}
+
+.cart{
+width:100%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay" id="overlay"></div>
+
+<header>
+
+<div class="logo">AYUSH STORE</div>
+
+<nav>
+
+<button class="login-btn" onclick="openLogin()">Login</button>
+
+<button class="dark-btn" onclick="toggleDark()">Dark</button>
+
+<button class="cart-btn" onclick="toggleCart()">
+🛒 Cart
+<span class="cart-count" id="cartCount">0</span>
+</button>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>AYUSH STORE</h1>
+
+<p>Premium Gaming • Electronics • Fashion</p>
+
+<button onclick="scrollToProducts()">Shop Now</button>
+
+</section>
+
+<div class="search-box">
+
+<input type="text" id="search" placeholder="Search products..." onkeyup="searchProduct()">
+
+<button>Search</button>
+
+</div>
+
+<section class="products" id="products">
+
+<div class="card">
+
+<div class="sale">SALE</div>
+
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000">
+
+<h2>iPhone 15 Pro</h2>
+
+<div class="price">₹1,29,999</div>
+
+<div class="rating">★★★★★</div>
+
+<div class="stock">Only 2 Left</div>
+
+<div class="review">Amazing camera & performance</div>
+
+<button class="buy-btn" onclick="addToCart('iPhone 15 Pro',129999,'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000')">
+Add To Cart
+</button>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1000">
+
+<h2>Gaming Headphone</h2>
+
+<div class="price">₹4,999</div>
+
+<div class="rating">★★★★☆</div>
+
+<div class="stock">Limited Stock</div>
+
+<div class="review">RGB Gaming Sound</div>
+
+<button class="buy-btn" onclick="addToCart('Gaming Headphone',4999,'https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1000')">
+Add To Cart
+</button>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=1000">
+
+<h2>PS5 Console</h2>
+
+<div class="price">₹54,999</div>
+
+<div class="rating">★★★★★</div>
+
+<div class="stock">Fast Selling</div>
+
+<div class="review">Ultimate Gaming Machine</div>
+
+<button class="buy-btn" onclick="addToCart('PS5 Console',54999,'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?q=80&w=1000')">
+Add To Cart
+</button>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1527814050087-3793815479db?q=80&w=1000">
+
+<h2>Gaming Mouse</h2>
+
+<div class="price">₹2,499</div>
+
+<div class="rating">★★★★★</div>
+
+<div class="stock">7 Left</div>
+
+<div class="review">RGB Ultra Fast Mouse</div>
+
+<button class="buy-btn" onclick="addToCart('Gaming Mouse',2499,'https://images.unsplash.com/photo-1527814050087-3793815479db?q=80&w=1000')">
+Add To Cart
+</button>
+
+</div>
+
+</section>
+
+<div class="shipping">
+
+<h2>🚚 Live Delivery Tracking</h2>
+
+<p>📍 Shipping Address: New Delhi</p>
+
+<p>📦 Estimated Delivery: 3 Days</p>
+
+<p>🚚 Status: Processing Order...</p>
+
+<p>🎁 First Order ₹100 Discount on 2 Products</p>
+
+</div>
+
+<div class="cart" id="cart">
+
+<h2>🛒 Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<div class="total">
+Total: ₹<span id="total">0</span>
+</div>
+
+<button class="close-cart" onclick="toggleCart()">
+Close Cart
+</button>
+
+<button class="checkout" onclick="checkout()">
+Buy Now
+</button>
+
+</div>
+
+<div class="login-box" id="loginBox">
+
+<h2>Login</h2>
+
+<input type="email" id="email" placeholder="Enter Email">
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<button onclick="login()">
+Login
+</button>
+
+</div>
+
+<footer>
+
+© 2026 AYUSH PREMIUM STORE
+
+</footer>
+
+<script>
+
+let cart=[];
+let total=0;
+let loggedIn=false;
+
+function toggleDark(){
+document.body.classList.toggle("dark");
+}
+
+function openLogin(){
+document.getElementById("loginBox").style.display="block";
+document.getElementById("overlay").style.display="block";
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+}
+
+function login(){
+
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+
+if(!email.includes("@")){
+alert("Enter Correct Email");
+return;
+}
+
+if(password.length<4){
+alert("Password Too Short");
+return;
+}
+
+loggedIn=true;
+
+alert("Login Successful");
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("overlay").style.display="none";
+
+}
+
+function addToCart(name,price,image){
+
+cart.push({name,price,image});
+
+total+=price;
+
+updateCart();
+
+}
+
+function updateCart(){
+
+document.getElementById("cartCount").innerText=cart.length;
+
+let cartItems=document.getElementById("cartItems");
+
+cartItems.innerHTML="";
+
+cart.forEach((item,index)=>{
+
+cartItems.innerHTML+=`
+
+<div class="cart-item">
+
+<img src="${item.image}">
+
+<div>
+
+<h4>${item.name}</h4>
+
+<p>₹${item.price}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("total").innerText=total;
+
+}
+
+function checkout(){
+
+if(!loggedIn){
+alert("Please Login First");
+return;
+}
+
+if(cart.length==0){
+alert("Cart Empty");
+return;
+}
+
+alert("✅ Order Placed Successfully\n📦 Delivery in 3 Days\n📍 Shipping From New Delhi");
+
+cart=[];
+total=0;
+
+updateCart();
+
+toggleCart();
+
+}
+
+function searchProduct(){
+
+let input=document.getElementById("search").value.toLowerCase();
+
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+if(card.innerText.toLowerCase().includes(input)){
+card.style.display="block";
+}else{
+card.style.display="none";
+}
+
+});
+
+}
+
+function scrollToProducts(){
+
+document.getElementById("products").scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+</script>
+
+</body>
+</html>
